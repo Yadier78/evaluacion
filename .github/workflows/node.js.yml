@@ -20,9 +20,15 @@ jobs:
       - name: Instalar dependencias
         run: npm install
 
+      - name: Instalar Heroku CLI
+        run: |
+          curl https://cli-assets.heroku.com/install.sh | sh
+
       - name: Desplegar a Heroku
-        uses: akhileshns/heroku-deploy@v3.12.12
-        with:
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
-          heroku_email: yadierf@yahoo.es
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: |
+          git config --global user.email "yadierf@yahoo.es"
+          git config --global user.name "Yadier78"
+          heroku git:remote -a ${{ secrets.HEROKU_APP_NAME }}
+          git push https://heroku:$HEROKU_API_KEY@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git HEAD:main --force
