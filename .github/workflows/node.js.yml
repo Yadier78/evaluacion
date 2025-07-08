@@ -9,8 +9,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Clonar repositorio
+      - name: Clonar repositorio completo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Configurar Node.js
         uses: actions/setup-node@v3
@@ -32,4 +34,5 @@ jobs:
           git config --global user.name "Yadier78"
           heroku git:remote -a ${{ secrets.HEROKU_APP_NAME }}
           git push https://heroku:$HEROKU_API_KEY@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git HEAD:main --force
+
 
